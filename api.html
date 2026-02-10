@@ -109,10 +109,139 @@
         // readposts();
         // addpost();
         //updatepost();
-        deletepost();
+        //deletepost();
 
 
     </script>
-    <div id="ip1"></div>
+    <style>
+        #content {
+            display: flex;
+            justify-content: space-between;
+        }
+        h1,h2,h3,h4,h5,h6 {
+            margin: 0;
+        }
+        #user {
+            background-color: white;
+            padding: 10px;
+            padding-left: 20px;
+            border-radius: 100px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 25px;
+            
+        }
+        body {
+            background-color: #f0f0f0;
+        }
+
+        #post {
+            background-color: #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }  
+        #user.selected {
+            background-color: #d0d0d0;
+            border: 2px solid #acc9ff;
+        } 
+    </style>
+    <div id="content">
+
+        <div style="width: 30%; background-color: orange;">
+            <div id="users"; style="width: 90%; height: 600px; margin: 0 auto;">
+
+                <div id="user" class="selected">
+                    <h3>reda</h3>
+                    <h3>reda@gmail.com</h3>
+                </div>
+                <div id="user">
+                    <h3>reda</h3>
+                    <h3>reda@gmail.com</h3>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="posts-content" style="width: 70%; background-color: white; padding: 20px;">
+            <div id="posts">
+                <div id="post">
+                    <h3>Post Title</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur bibendum. Sed at ligula a enim efficitur tincidunt.</p>
+                </div>
+            </div>
+            
+            
+
+        </div>
+
+
+        <script>
+            function getposts(userid) {
+                let request = new XMLHttpRequest();
+                request.open('GET', `https://jsonplaceholder.typicode.com/posts?userId=${userid}`);
+                request.responseType = 'json';
+                request.send();
+                request.onload = function() {
+                    if (request.status >= 200 && request.status < 300) {
+                        let posts = request.response;
+                        document.getElementById('posts').innerHTML = '';
+                        for(posts of posts) {
+                            let content = `
+                                <div id="post">
+                                    <h3>${posts.title}</h3>
+                                    <p>${posts.body}</p>
+                                </div>
+                            `;
+                            document.getElementById('posts').innerHTML += content;
+                        }
+                    } else {
+                        console.log("Error: " + request.status);
+                    }
+
+
+                }
+            }
+            
+
+            function getusers() {
+                let request = new XMLHttpRequest();
+                request.open('GET', 'https://jsonplaceholder.typicode.com/users');
+                request.responseType = 'json';
+                request.send();
+                request.onload = function() {
+                    if (request.status >= 200 && request.status < 300) {
+                        let users = request.response;
+                        document.getElementById('users').innerHTML = '';
+                        for(user of users) {
+                            let content = `
+                                <div id="user" onclick = "userclicked(${user.id})">
+                                    <h3>${user.name}</h3>
+                                    <h3>${user.email}</h3>
+                                </div>
+                            `;
+                            document.getElementById('users').innerHTML += content;
+                        }
+                    } else {
+                        console.log("Error: " + request.status);
+                    }
+                }
+            }
+
+
+            function userclicked(userid) {
+               getposts(userid);
+                
+            }
+
+
+            
+            getusers(); 
+        </script>
+        
+
+
+
+    </div>
 </body>
 </html>
