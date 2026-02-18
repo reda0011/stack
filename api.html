@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
     <h1>API Documentation</h1>
@@ -27,7 +28,9 @@
                 }
             }
         }
-
+     
+        
+     
         function addpost () 
         {
              let request = new XMLHttpRequest();
@@ -178,65 +181,149 @@
 
         <script>
             function getposts(userid) {
-                let request = new XMLHttpRequest();
-                request.open('GET', `https://jsonplaceholder.typicode.com/posts?userId=${userid}`);
-                request.responseType = 'json';
-                request.send();
-                request.onload = function() {
-                    if (request.status >= 200 && request.status < 300) {
-                        let posts = request.response;
-                        document.getElementById('posts').innerHTML = '';
-                        for(posts of posts) {
-                            let content = `
-                                <div id="post">
-                                    <h3>${posts.title}</h3>
-                                    <p>${posts.body}</p>
-                                </div>
-                            `;
-                            document.getElementById('posts').innerHTML += content;
-                        }
-                    } else {
-                        console.log("Error: " + request.status);
+                
+                    fetch('https://jsonplaceholder.typicode.com/posts?userId='+userid)
+                        .then((response) => 
+                            { 
+                                if(response.ok) {
+                                    return response.json();
+                                }
+                            })
+                        .then((posts) => {
+                            document.getElementById('posts').innerHTML = '';
+                            for(post of posts) {
+                                let content = `
+                                    <div id="post">
+                                        <h3>${post.title}</h3>
+                                        <p>${post.body}</p>
+                                    </div>
+                                `;
+                                document.getElementById('posts').innerHTML += content;
+                            }
+                        }).catch((error) => { console.log("Error: " + error); });
                     }
-
-
-                }
-            }
             
 
             function getusers() {
-                let request = new XMLHttpRequest();
-                request.open('GET', 'https://jsonplaceholder.typicode.com/users');
-                request.responseType = 'json';
-                request.send();
-                request.onload = function() {
-                    if (request.status >= 200 && request.status < 300) {
-                        let users = request.response;
-                        document.getElementById('users').innerHTML = '';
-                        for(user of users) {
-                            let content = `
-                                <div id="user" onclick = "userclicked(${user.id})">
-                                    <h3>${user.name}</h3>
-                                    <h3>${user.email}</h3>
-                                </div>
-                            `;
-                            document.getElementById('users').innerHTML += content;
-                        }
-                    } else {
-                        console.log("Error: " + request.status);
+                return new Promise((resolve, reject) => {
+                    fetch('https://jsonplaceholder.typicode.com/users')
+                        .then((response) => 
+                            { 
+                               
+                                if(response.ok) {
+                                    return response.json();
+                                    
+                                }
+                            })
+                            .then((users) => {
+                            document.getElementById('users').innerHTML = '';
+                            for(user of users) {
+                                let content = `
+                                    <div id="user" onclick = "userclicked(${user.id} ,this)">
+                                        <h3>${user.name}</h3>
+                                        <h3>${user.email}</h3>
+                                    </div>
+                                `;
+                                document.getElementById('users').innerHTML += content;
+                            }
+                             resolve();
+                        })
+
                     }
-                }
-            }
+                 )}
 
 
-            function userclicked(userid) {
-               getposts(userid);
+            // function userclicked(userid,ele) {
+            //    getposts(userid);
+            //    console.log(ele);
+            //     ele.classList.add('selected');
+            //     let users = document.querySelectorAll('#user'); 
+            //     for(user of users) {
+            //         if(user != ele) {
+            //             user.classList.remove('selected');
+            //         }
+            //     }
+            // }
+
+            // getusers().then(() => {
+            //     getposts(1);
+            // })
+
+            function getusersaxios(){
                 
-            }
+                    axios.get('https://jsonplaceholder.typicode.com/users')
+                    // .then((users) => {
+                    //         // handle success
+                    //         console.log(users);
+                    //     })  
+                    .then((response) => {
+                        document.getElementById('users').innerHTML = '';
+                        let users = response.data;
+                             for(user of users) {
+                                let content = `
+                                    <div id="user" onclick = "userclicked(${user.id} ,this)">
+                                        <h3>${user.name}</h3>
+                                        <h3>${user.email}</h3>
+                                    </div>
+                                `;
+                                document.getElementById('users').innerHTML += content;
+                            }
+                        }).catch(error => {
+                            alert(error)
+                        });
+                  
+                    }
+
+
+
+                    function getpostsaxios(userid){
+                        axios.get('https://jsonplaceholder.typicode.com/posts?userId='+userid) 
+                            .then((response) => {
+                                let posts = response.data;
+                                document.getElementById('posts').innerHTML = '';
+                                        for(post of posts) {
+                                            let content = `
+                                                <div id="post">
+                                                    <h3>${post.title}</h3>
+                                                    <p>${post.body}</p>
+                                                </div>
+                                            `;
+                                            document.getElementById('posts').innerHTML += content;
+                                        }
+                                }).catch(error => {
+                                    alert(error)
+                                });
+                  
+                    }
+
+                     function userclicked(userid,ele) {
+                        getpostsaxios(userid);
+                        console.log(ele);
+                            ele.classList.add('selected');
+                            let users = document.querySelectorAll('#user'); 
+                            for(user of users) {
+                                if(user != ele) {
+                                    user.classList.remove('selected');
+                                }
+                            }
+                    }
+
+            getusersaxios();
+            getpostsaxios(1);
+            
+
+
+
+
+
+
 
 
             
-            getusers(); 
+            
+
+            
+            
         </script>
         
 
