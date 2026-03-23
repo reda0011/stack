@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>API Documentation</h1>
+
+
+
+    <script>
+        
+        function readposts ()
+        {
+             let request = new XMLHttpRequest();
+                request.open('GET', 'https://jsonplaceholder.typicode.com/posts/');
+                request.responseType = 'json';
+                request.send();
+                request.onload = function() {
+               if (request.status >= 200 && request.status < 300) {
+                    let posts = request.response;
+                    console.log(posts);
+                } else {
+                    console.log("Error: " + request.status);
+                }
+            }
+        }
+     
+        
+     
+        function addpost () 
+        {
+             let request = new XMLHttpRequest();
+                request.open('POST', 'https://jsonplaceholder.typicode.com/posts/');
+                request.responseType = 'json';
+                request.setRequestHeader("Accept", 'application/json');
+                request.setRequestHeader("Content-Type", 'application/json');
+                let bodyparams = {
+                    "userId": 17,
+                    "id": 201,
+                    "title": "redaa",
+                    "completed": false
+                
+                };
+                request.send(JSON.stringify(bodyparams));
+                request.onload = function() {
+
+                    if (request.status >= 200 && request.status < 300) {
+                         let post = request.response;
+                         console.log(post);
+                    } else {
+                        console.log("Error: " + request.status);
+                    }
+                };
+
+           
+        }
+
+
+         function updatepost () 
+        {
+             let request = new XMLHttpRequest();
+                request.open('PUT', 'https://jsonplaceholder.typicode.com/posts/1');
+                request.responseType = 'json';
+                request.setRequestHeader("Accept", 'application/json');
+                request.setRequestHeader("Content-Type", 'application/json');
+                let bodyparams = {
+                    "userId": 17,
+                    "title": "redaelko",
+                    "completed": false
+                
+                };
+                request.send(JSON.stringify(bodyparams));
+                request.onload = function() {
+
+                    if (request.status >= 200 && request.status < 300) {
+                         let post = request.response;
+                         console.log(post);
+                    } else {
+                        console.log("Error: " + request.status);
+                    }
+                };
+
+           
+        }
+
+        function deletepost () 
+        {
+             let request = new XMLHttpRequest();
+                request.open('DELETE', 'https://jsonplaceholder.typicode.com/posts/1');
+                request.responseType = 'json';
+                request.setRequestHeader("Accept", 'application/json');
+                request.setRequestHeader("Content-Type", 'application/json');
+                request.send();
+                request.onload = function() {
+
+                    if (request.status >= 200 && request.status < 300) {
+                         let post = request.response;
+                         console.log(post);
+                         console.log("Post deleted successfully");
+                    } else {
+                        console.log("Error: " + request.status);
+                    }
+                };
+
+           
+        }
+
+        // readposts();
+        // addpost();
+        //updatepost();
+        //deletepost();
+
+
+    </script>
+    <style>
+        #content {
+            display: flex;
+            justify-content: space-between;
+        }
+        h1,h2,h3,h4,h5,h6 {
+            margin: 0;
+        }
+        #user {
+            background-color: white;
+            padding: 10px;
+            padding-left: 20px;
+            border-radius: 100px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 25px;
+            
+        }
+        body {
+            background-color: #f0f0f0;
+        }
+
+        #post {
+            background-color: #e0e0e0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }  
+        #user.selected {
+            background-color: #d0d0d0;
+            border: 2px solid #acc9ff;
+        } 
+    </style>
+    <div id="content">
+
+        <div style="width: 30%; background-color: orange;">
+            <div id="users"; style="width: 90%; height: 600px; margin: 0 auto;">
+
+                <div id="user" class="selected">
+                    <h3>reda</h3>
+                    <h3>reda@gmail.com</h3>
+                </div>
+                <div id="user">
+                    <h3>reda</h3>
+                    <h3>reda@gmail.com</h3>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="posts-content" style="width: 70%; background-color: white; padding: 20px;">
+            <div id="posts">
+                <div id="post">
+                    <h3>Post Title</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec vel sapien eget nunc efficitur bibendum. Sed at ligula a enim efficitur tincidunt.</p>
+                </div>
+            </div>
+            
+            
+
+        </div>
+
+
+        <script>
+            function getposts(userid) {
+                
+                    fetch('https://jsonplaceholder.typicode.com/posts?userId='+userid)
+                        .then((response) => 
+                            { 
+                                if(response.ok) {
+                                    return response.json();
+                                }
+                            })
+                        .then((posts) => {
+                            document.getElementById('posts').innerHTML = '';
+                            for(post of posts) {
+                                let content = `
+                                    <div id="post">
+                                        <h3>${post.title}</h3>
+                                        <p>${post.body}</p>
+                                    </div>
+                                `;
+                                document.getElementById('posts').innerHTML += content;
+                            }
+                        }).catch((error) => { console.log("Error: " + error); });
+                    }
+            
+
+            function getusers() {
+                return new Promise((resolve, reject) => {
+                    fetch('https://jsonplaceholder.typicode.com/users')
+                        .then((response) => 
+                            { 
+                               
+                                if(response.ok) {
+                                    return response.json();
+                                    
+                                }
+                            })
+                            .then((users) => {
+                            document.getElementById('users').innerHTML = '';
+                            for(user of users) {
+                                let content = `
+                                    <div id="user" onclick = "userclicked(${user.id} ,this)">
+                                        <h3>${user.name}</h3>
+                                        <h3>${user.email}</h3>
+                                    </div>
+                                `;
+                                document.getElementById('users').innerHTML += content;
+                            }
+                             resolve();
+                        })
+
+                    }
+                 )}
+
+
+            // function userclicked(userid,ele) {
+            //    getposts(userid);
+            //    console.log(ele);
+            //     ele.classList.add('selected');
+            //     let users = document.querySelectorAll('#user'); 
+            //     for(user of users) {
+            //         if(user != ele) {
+            //             user.classList.remove('selected');
+            //         }
+            //     }
+            // }
+
+            // getusers().then(() => {
+            //     getposts(1);
+            // })
+
+            function getusersaxios(){
+                
+                    axios.get('https://jsonplaceholder.typicode.com/users')
+                    // .then((users) => {
+                    //         // handle success
+                    //         console.log(users);
+                    //     })  
+                    .then((response) => {
+                        document.getElementById('users').innerHTML = '';
+                        let users = response.data;
+                             for(user of users) {
+                                let content = `
+                                    <div id="user" onclick = "userclicked(${user.id} ,this)">
+                                        <h3>${user.name}</h3>
+                                        <h3>${user.email}</h3>
+                                    </div>
+                                `;
+                                document.getElementById('users').innerHTML += content;
+                            }
+                        }).catch(error => {
+                            alert(error)
+                        });
+                  
+                    }
+
+
+
+                    function getpostsaxios(userid){
+                        axios.get('https://jsonplaceholder.typicode.com/posts?userId='+userid) 
+                            .then((response) => {
+                                let posts = response.data;
+                                document.getElementById('posts').innerHTML = '';
+                                        for(post of posts) {
+                                            let content = `
+                                                <div id="post">
+                                                    <h3>${post.title}</h3>
+                                                    <p>${post.body}</p>
+                                                </div>
+                                            `;
+                                            document.getElementById('posts').innerHTML += content;
+                                        }
+                                }).catch(error => {
+                                    alert(error)
+                                });
+                  
+                    }
+
+                     function userclicked(userid,ele) {
+                        getpostsaxios(userid);
+                        console.log(ele);
+                            ele.classList.add('selected');
+                            let users = document.querySelectorAll('#user'); 
+                            for(user of users) {
+                                if(user != ele) {
+                                    user.classList.remove('selected');
+                                }
+                            }
+                    }
+
+            getusersaxios();
+            getpostsaxios(1);
+            
+
+
+
+
+
+
+
+
+            
+            
+
+            
+            
+        </script>
+        
+
+
+
+    </div>
+</body>
+</html>
