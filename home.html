@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .post-card {
+            border: none;
+            border-radius: .5rem;
+        }
+        .post-card .card-header {
+            background: transparent;
+            border-bottom: none;
+        }
+        .post-card .card-footer {
+            background: transparent;
+            border-top: none;
+        }
+        /* Fallback styles in case Bootstrap CDN is blocked */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: .5rem 1rem;
+            background: #ffffff;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+        .navbar .navbar-brand {
+            font-weight: 600;
+            color: #212529;
+            text-decoration: none;
+        }
+        .navbar .nav-link { color: #495057; text-decoration: none; margin-right: .75rem; }
+        .container { max-width: 980px; margin: 0 auto; padding: 0 1rem; }
+        .btn { display: inline-block; padding: .375rem .75rem; border-radius: .375rem; border: 1px solid transparent; text-decoration: none; }
+        .btn-primary { background: #0d6efd; color: #fff; border-color: #0d6efd; }
+        .btn-outline-primary { background: transparent; color: #0d6efd; border: 1px solid #0d6efd; }
+        .card { background: #fff; border: 1px solid #e6e6e6; border-radius: .5rem; box-shadow: 0 1px 4px rgba(0,0,0,0.04); margin-bottom: 1.5rem; overflow: hidden; }
+        .card-header { padding: .75rem 1rem; display: flex; align-items: center; gap: .5rem; }
+        .card-body { padding: 1rem; }
+        .card-footer { padding: .5rem 1rem; background: transparent; }
+        .card-img-top { display: block; width: 100%; height: auto; }
+        .rounded-circle { border-radius: 50%; }
+        .me-2 { margin-right: .5rem; }
+        .mt-4 { margin-top: 1.5rem; }
+        .mb-4 { margin-bottom: 1.5rem; }
+        .text-muted { color: #6c757d; }
+    </style>
+
+
+    <title>Tarmeez Feed</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="#">Tarmeez</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Profile</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary" href="#">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mt-4">
+        <!-- Post card example -->
+        <div class="card mb-4 post-card">
+            <div class="card-header d-flex align-items-center">
+                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="avatar">
+                <strong>@Yarhmm</strong>
+            </div>
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80" class="card-img-top" alt="post image">
+            <div class="card-body">
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem dicta aut blanditiis non, vel error ipsa commodi corrupti cupiditate libero tenetur modi architecto, rerum totam. Ut doloribus laudantium ipsum in?</p>
+                <p class="text-muted"><small>2 min ago</small></p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <div>
+                    <i class="bi bi-chat me-1"></i>(3) Comments
+                </div>
+                <div>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Duplicate card if needed -->
+        <div class="card mb-4 post-card">
+            <div class="card-header d-flex align-items-center">
+                <img src="https://via.placeholder.com/40" class="rounded-circle me-2" alt="avatar">
+                <strong>@Yarhmm</strong>
+            </div>
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1600&q=80" class="card-img-top" alt="post image">
+            <div class="card-body">
+                <p class="card-text">Another example post content to show repeat layout.</p>
+                <p class="text-muted"><small>5 min ago</small></p>
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <div>
+                    <i class="bi bi-chat me-1"></i>(0) Comments
+                </div>
+                <div>
+                    <a href="#" class="btn btn-sm btn-outline-primary">View</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+</body>
+</html>
